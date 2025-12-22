@@ -125,7 +125,7 @@ def valor_profile_to_canonical(input_profile: dict) -> Profile:
     )
 
 
-def map_valor_to_canonical(valor_profiles: list[dict]) -> list[Profile]:
+def map_valor_to_canonical(valor_profiles: dict) -> list[Profile]:
     """Iterate over the input list"""
     
     profiles = []
