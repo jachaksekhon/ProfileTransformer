@@ -80,9 +80,9 @@ def province_or_state_code_finder(country_code: str, state_or_province_name: str
       E.g: "BC" for British Columbia or "TX" for Texas
       """
       if country_code == "CA":
-            return provinces_helper.find_code_from_province(state_or_province_name)
+            return provinces_helper.find_province_from_code(state_or_province_name)
       elif country_code == "US":
-            return states_helper.find_code_from_state(state_or_province_name)
+            return states_helper.find_state_from_code(state_or_province_name)
       else:
             raise ValueError(
                   f"Country '{country_code}' is not supported yet"

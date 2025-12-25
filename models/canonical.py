@@ -44,7 +44,7 @@ class Profile:
     Canonical profile model.
 
     Invariants:
-    - phone_number stored as one contiguous string
+    - phone_number stored as one contiguous string (e.g 6041230123)
     """
     profile_name: str
     email: str

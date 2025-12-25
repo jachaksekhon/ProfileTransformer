@@ -36,14 +36,6 @@ Expected stellar output:
 
 from models.canonical import Profile, Address, Card
 
-STELLAR_CARD_TYPE_MAP = {
-    "visa": "Visa",
-    "discover": "Discover",
-    "mastercard": "MasterCard",
-    "amex": "Amex",
-    "jcb": "JCB"
-}
-
 def emit_stellar_card(card: Card) -> dict:
 
     if card.card_type in STELLAR_CARD_TYPE_MAP:
@@ -93,12 +85,16 @@ def canonical_profile_to_stellar(profile: Profile) -> dict:
         "oneCheckoutPerProfile": profile.one_checkout
     }
 
-
-
 def canonical_profiles_to_stellar(profiles: list[Profile]) -> list[dict]:
     
     return [canonical_profile_to_stellar(p) for p in profiles]
 
+################ Helpers ################
 
-
-
+STELLAR_CARD_TYPE_MAP = {
+    "visa": "Visa",
+    "discover": "Discover",
+    "mastercard": "MasterCard",
+    "amex": "Amex",
+    "jcb": "JCB"
+}
