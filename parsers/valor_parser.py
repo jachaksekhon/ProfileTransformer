@@ -94,7 +94,7 @@ def map_card_info(card_dic: dict) -> Card:
     return Card(
         holder    = require_key(card_dic, "holder", "valor card holder name"),
         card_type = require_key(card_dic, "type", "valor card type").strip().lower(),
-        number    = require_key(card_dic, "number", "valor card type"),
+        number    = require_key(card_dic, "number", "valor card type").replace(" ", ""),
         exp_month = month,
         exp_year  = year,
         cvv       = require_key(card_dic, "cvv", "valor card cvv") 

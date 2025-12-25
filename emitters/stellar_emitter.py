@@ -57,7 +57,7 @@ def emit_stellar_card(card: Card) -> dict:
     return {
         "cardName": card.holder,
         "cardType": stellar_card_type,
-        "cardNumber": card.number.replace(" ", ""),
+        "cardNumber": card.number,
         "cardMonth": card.exp_month,
         "cardYear": card.exp_year,
         "cardCvv": card.cvv
