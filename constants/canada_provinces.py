@@ -45,15 +45,30 @@ CANADA_PROVINCE_CODE_TO_NAME_MAP = {
 # Set of valid ISO country codes
 CANADA_PROVINCE_CODE_SET = set(CANADA_PROVINCE_NAME_TO_CODE_MAP.values())
 
-def find_state_from_code(state_code: str) -> str:
+# Set of valid country names
+CANADA_PROVINCE_NAME_SET = set(CANADA_PROVINCE_NAME_TO_CODE_MAP.keys())
+
+def find_province_from_code(province_code: str) -> str:
     """
     Resolve a province name from an ISO alpha-2 province code.
 
     Raises:
         ValueError: if the province code is unsupported.
     """
-    if state_code in CANADA_PROVINCE_CODE_SET:
-        return CANADA_PROVINCE_CODE_TO_NAME_MAP[state_code]
+    if province_code in CANADA_PROVINCE_CODE_SET:
+        return CANADA_PROVINCE_CODE_TO_NAME_MAP[province_code]
     
-    raise ValueError(f"Unsupported state code: {state_code}")
+    raise ValueError(f"Unsupported province code: {province_code}")
+
+def find_code_from_province(province_name: str) -> str:
+    """
+    Resolve a province code from a province name.
+
+    Raises:
+        ValueError: if the province name is unsupported.
+    """
+    if province_name in CANADA_PROVINCE_NAME_SET:
+        return CANADA_PROVINCE_NAME_TO_CODE_MAP[province_name]
+    
+    raise ValueError(f"Unsupported province name: {province_name}")
     

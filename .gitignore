@@ -4,5 +4,5 @@ __pycache__/
 
 valorprofiles.json
 stellarprofiles.json
-
+stellar_output.json
 apptesting.py

@@ -68,10 +68,10 @@ def emit_stellar_shipping(address: Address) -> dict:
     return {
         "firstName": address.first_name,
         "lastName": address.last_name,
-        "country": address.country,
+        "country": address.country_code,
         "address": address.address_line_1,
         "address2": address.address_line_2,
-        "state": address.state,
+        "state": address.state_code,
         "city": address.city,
         "zipcode": address.zip_code,
     }

@@ -62,59 +62,63 @@ Profile, Address, and Card models for downstream transformation.
 """
 
 from models.canonical import Profile, Address, Card
-from constants.canada_provinces_map import CANADA_PROVINCE_MAP
 from helpers.json_utils import require_key
+import constants.countries_map as countries_helper
 
 def map_valor_address(shipping_dic: dict) -> Address:
 
-    # grab shortform since valor produces expanded form
-    state_name = shipping_dic["state"]
+    country_code = require_key(shipping_dic, "countryCode", "valor shipping country")
+    country_name = countries_helper.find_country_from_code(country_code)
 
-    state = CANADA_PROVINCE_MAP.get(state_name)
-    if not state:
-        raise ValueError(f"Unsupported Canadian province {state_name}")
+    province_or_state_name = require_key(shipping_dic, "state", "valor shipping state/province")
+    province_or_state_code = countries_helper.province_or_state_code_finder(country_code, province_or_state_name)
 
     return Address(
-        first_name     = shipping_dic["firstName"],
-        last_name      = shipping_dic["lastName"],
-        address_line_1 = shipping_dic["addressLine1"],
-        address_line_2 = shipping_dic["addressLine2"],
-        country        = shipping_dic["countryCode"],
-        state          = state,
-        city           = shipping_dic["city"],
-        zip_code       = shipping_dic["zipCode"]
+        first_name     = require_key(shipping_dic, "firstName", "valor shipping first name"),
+        last_name      = require_key(shipping_dic, "lastName", "valor shipping last name"),
+        address_line_1 = require_key(shipping_dic, "addressLine1", "valor shipping address"),
+        address_line_2 = require_key(shipping_dic, "addressLine2", "valor shipping address2"),
+        country_name   = country_name,
+        country_code   = country_code,
+        state_name     = province_or_state_name,
+        state_code     = province_or_state_code,
+        city           = require_key(shipping_dic, "city", "valor shipping city"),
+        zip_code       = require_key(shipping_dic, "zipCode", "valor shipping zipcode"),
     )
 
 def map_card_info(card_dic: dict) -> Card:
 
-    month, year = card_dic["expiration"].split("/")
+    # Valor stores month/year: E.g 02/12
+    month, year = require_key(card_dic, "expiration", "valor card expiry").split("/")
 
     return Card(
-        holder    = card_dic["holder"],
-        card_type = card_dic["type"].strip().lower(),
-        number    = card_dic["number"],
+        holder    = require_key(card_dic, "holder", "valor card holder name"),
+        card_type = require_key(card_dic, "type", "valor card type").strip().lower(),
+        number    = require_key(card_dic, "number", "valor card type"),
         exp_month = month,
         exp_year  = year,
-        cvv       = card_dic["cvv"] 
+        cvv       = require_key(card_dic, "cvv", "valor card cvv") 
     )
 
 
 def valor_profile_to_canonical(input_profile: dict) -> Profile:
-    """Convert a single Valor profile to a canonical Profile."""
+    """
+    Convert a single Valor profile to a canonical Profile.
+    """
 
-    shipping_input = input_profile["shipping"]
-    billing_input  = input_profile["billing"]
-    card_input     = input_profile["card"]
-    same_billing   = input_profile["billingSameAsShipping"]
+    shipping_input = require_key(input_profile, "shipping", "valor shipping key")
+    billing_input  = require_key(input_profile, "billing", "valor billing key")
+    card_input     = require_key(input_profile, "card", "valor card key")
+    same_billing   = require_key(input_profile, "billingSameAsShipping", "valor billingSameAsShipping key")
 
     shipping = map_valor_address(shipping_input)
     billing  = shipping if same_billing else map_valor_address(billing_input)
     card     = map_card_info(card_input)
 
     return Profile(
-        profile_name         = input_profile["name"],
-        email                = input_profile["email"],
-        phone_number         = input_profile["phoneNumber"],
+        profile_name         = require_key(input_profile, "name", "valor profile name"),
+        email                = require_key(input_profile, "email", "valor profile email"),
+        phone_number         = require_key(input_profile, "phoneNumber", "valor profile phone number"),
 
         shipping_address     = shipping,
         billing_address      = billing,
@@ -122,12 +126,14 @@ def valor_profile_to_canonical(input_profile: dict) -> Profile:
 
         card                 = card,
 
-        one_checkout         = input_profile["oneCheckout"]
+        one_checkout         = require_key(input_profile, "oneCheckout", "valor profile onecheckout")
     )
 
 
 def map_valor_to_canonical(valor_profiles: dict) -> list[Profile]:
-    """Iterate over the input list"""
+    """
+    Iterate over the input list of Valor profiles.
+    """
     
     profiles = []
 
