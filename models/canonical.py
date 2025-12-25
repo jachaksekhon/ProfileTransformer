@@ -9,14 +9,14 @@ class Address:
 
     Invariants:
     - address_line_2 can be null
-    - country is a 2-letter ISO code (e.g. "CA", "US")
     - state/province is 2 letters (e.g "BC")
     """
     first_name: str
     last_name: str
     address_line_1: str
     address_line_2: str
-    country: str
+    country_name: str
+    country_code: str
     state: str
     city: str
     zip_code: str
