@@ -46,26 +46,18 @@ This module maps Stellar-specific fields to the canonical
 """
 
 from models.canonical import Profile, Address, Card
-from constants.countries_map import COUNTRY_CODE_SET, COUNTRY_CODE_TO_NAME_MAP
 from helpers.json_utils import require_key
 
-def find_country_from_code(country_code: str) -> str:
-    """
-    Resolve a country name from an ISO alpha-2 country code.
-
-    Raises:
-        ValueError: if the country code is unsupported.
-    """
-
-    if country_code in COUNTRY_CODE_SET:
-        return COUNTRY_CODE_TO_NAME_MAP[country_code]
-    
-    raise ValueError(f"Unsupported country code: {country_code}")
+import constants.countries_map as countries_helper
+import constants.canada_provinces_map as provinces_helper
 
 def map_stellar_address(shipping_dic: dict) -> Address:
 
     country_code = require_key(shipping_dic, "country", "stellar shipping address") # e.g. "CA"
-    country_name = find_country_from_code(country_code)
+    country_name = countries_helper.find_country_from_code(country_code)
+
+    state_name = require_key(shipping_dic, "state", "stellar shipping address")
+    state_code = provinces_helper.find_state_from_code(state_name)
 
     return Address(
         first_name     = require_key(shipping_dic, "firstName", "stellar shipping address"),
@@ -74,7 +66,8 @@ def map_stellar_address(shipping_dic: dict) -> Address:
         address_line_2 = shipping_dic.get("address2", ""),
         country_name   = country_name,
         country_code   = country_code,
-        state          = require_key(shipping_dic, "state", "stellar shipping address"),
+        state_name     = state_name,
+        state_code     = state_code,
         city           = require_key(shipping_dic, "city", "stellar shipping address"),
         zip_code       = require_key(shipping_dic, "zipcode", "stellar shipping address"),
     )
@@ -88,7 +81,6 @@ def map_stellar_card(card_dic: dict) -> Card:
         exp_year  = require_key(card_dic, "cardYear", "stellar card data"),
         cvv       = require_key(card_dic, "cardCvv", "stellar card data") 
     )
-
 
 def stellar_profile_to_canonical(input_profile: dict) -> Profile:
     """
@@ -117,7 +109,6 @@ def stellar_profile_to_canonical(input_profile: dict) -> Profile:
 
         one_checkout         = require_key(input_profile, "oneCheckoutPerProfile", "stellar profile data"),
     )
-
 
 def map_stellar_to_canonical(stellar_profiles: list[dict]) -> list[Profile]:
     """Iterate over the input list"""

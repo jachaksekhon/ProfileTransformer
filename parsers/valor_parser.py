@@ -63,6 +63,7 @@ Profile, Address, and Card models for downstream transformation.
 
 from models.canonical import Profile, Address, Card
 from constants.canada_provinces_map import CANADA_PROVINCE_MAP
+from helpers.json_utils import require_key
 
 def map_valor_address(shipping_dic: dict) -> Address:
 

@@ -40,3 +40,16 @@ COUNTRY_CODE_TO_NAME_MAP = {
 
 # Set of valid ISO country codes
 COUNTRY_CODE_SET = set(COUNTRY_CODE_TO_NAME_MAP.keys())
+
+def find_country_from_code(country_code: str) -> str:
+    """
+    Resolve a country name from an ISO alpha-2 country code.
+
+    Raises:
+        ValueError: if the country code is unsupported.
+    """
+
+    if country_code in COUNTRY_CODE_SET:
+        return COUNTRY_CODE_TO_NAME_MAP[country_code]
+    
+    raise ValueError(f"Unsupported country code: {country_code}")

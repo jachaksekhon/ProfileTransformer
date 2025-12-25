@@ -17,7 +17,8 @@ class Address:
     address_line_2: str
     country_name: str
     country_code: str
-    state: str
+    state_name: str
+    state_code: str
     city: str
     zip_code: str
 
