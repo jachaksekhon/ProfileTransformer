@@ -4,6 +4,9 @@ __pycache__/
 
 valorprofiles.json
 valoroutput.json
+valoroutput.txt
+cybersoleinput.json
+cybersoleoutput.json
 stellarprofiles.json
 stellar_output.json
 apptesting.py
