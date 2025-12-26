@@ -56,7 +56,7 @@ def map_stellar_address(shipping_dic: dict) -> Address:
     country_name = countries_helper.find_country_from_code(country_code)
 
     state_or_province_code = require_key(shipping_dic, "state", "stellar shipping state/province")
-    state_or_province_name = countries_helper.province_or_state_code_finder(country_code, state_or_province_code)
+    state_or_province_name = countries_helper.province_or_state_name_finder(country_code, state_or_province_code)
 
     return Address(
         first_name     = require_key(shipping_dic, "firstName", "stellar shipping first name"),

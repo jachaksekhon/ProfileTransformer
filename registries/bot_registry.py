@@ -30,7 +30,7 @@ EMITTERS = {
         "emitter": canonical_profiles_to_stellar
     },
     "valor": {
-        "file": "valor_output.txt",
+        "file": "valor_output.json",
         "emitter": canonical_profiles_to_valor
     }
 }

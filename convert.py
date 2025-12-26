@@ -1,5 +1,5 @@
 import argparse
-from services.conversion_service import convert
+from services.conversion_service import convert, resolve_source_target
 from registries.bot_registry import (
     SUPPORTED_SOURCE_BOTS,
     SUPPORTED_TARGET_BOTS
@@ -15,7 +15,7 @@ def main():
         "--from",
         dest="source",
         choices=SUPPORTED_SOURCE_BOTS,
-        required=True,
+        required=False,
         help="Source bot type"
     )
 
@@ -23,18 +23,21 @@ def main():
         "--to",
         dest="target",
         choices=SUPPORTED_TARGET_BOTS,
-        required=True,
+        required=False,
         help="Target bot type"
     )
 
     args = parser.parse_args()
 
     try:
-        count = convert(args.source, args.target)
+        source, target = resolve_source_target(args.source, args.target)
+
+        count = convert(source, target)
         print(f"Successfully converted {count} profiles")
+
     except Exception as e:
         print(f"Conversion failed: {e}")
-        raise
+        input("\nPress Enter to exit...")  # helpful for double-click users
 
 
 if __name__ == "__main__":

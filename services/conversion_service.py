@@ -1,6 +1,45 @@
 import json
+import os
 from registries.bot_registry import PARSERS, EMITTERS
 
+
+def load_config():
+    """
+    Load conversion configuration from config.json if it exists.
+    Returns a dict or None.
+    """
+    if not os.path.exists("config.json"):
+        return None
+
+    with open("config.json", "r", encoding="utf-8") as f:
+        return json.load(f)
+
+def resolve_source_target(cli_source: str | None, cli_target: str | None):
+    """
+    Resolve source/target from CLI args or config.json.
+    CLI args take precedence.
+    """
+    if cli_source and cli_target:
+        return cli_source, cli_target
+
+    if os.path.exists("config.json"):
+        with open("config.json", "r", encoding="utf-8") as f:
+            config = json.load(f)
+
+        source = config.get("from")
+        target = config.get("to")
+
+        if not source or not target:
+            raise ValueError(
+                "config.json must contain both 'from' and 'to' fields."
+            )
+
+        return source, target
+
+    raise RuntimeError(
+        "No conversion source/target specified.\n"
+        "Use CLI arguments or create config.json."
+    )
 
 def convert(from_bot: str, to_bot: str) -> int:
     """

@@ -72,6 +72,7 @@ python convert.py --from stellar --to valor
 #### Option B: Without using the command line (Windows friendly)
 1. Open the config.json file
 2. Set the `from` and `to` fields to what you need
+- Current;y supporting: `Stellar -> Valor` and `Valor -> Stellar`
 3. Double-click `convert.py`
 
 Example:
