@@ -1,9 +1,15 @@
 def normalize_card_number(card_number: str) -> str:
+    """
+    Removes spaces from a card number.
+    """
     return card_number.replace(" ", "")
 
 def determine_card_type(card_number: str) -> str:
     """
     Determine card type (e.g: Amex, Visa) given card number
+
+    Returns:
+        One of: 'visa', 'mastercard', 'amex', 'discover', 'jcb'
     """
 
     number = normalize_card_number(card_number)
