@@ -56,4 +56,4 @@ class Profile:
 
     card: Card
 
-    one_checkout: bool
+    one_checkout: bool = False
