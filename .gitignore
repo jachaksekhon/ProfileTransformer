@@ -3,10 +3,9 @@ __pycache__/
 *.pyc
 
 valorprofiles.json
-valoroutput.json
-valoroutput.txt
+valor_output.json
+valor_output.txt
 cybersoleinput.json
 cybersoleoutput.json
 stellarprofiles.json
 stellar_output.json
-apptesting.pyvalor_output.json
