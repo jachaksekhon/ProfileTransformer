@@ -2,6 +2,7 @@
 __pycache__/
 *.pyc
 
+<<<<<<< HEAD
 valorprofiles.json
 valor_output.json
 valor_output.txt
@@ -9,3 +10,7 @@ cybersoleinput.json
 cybersoleoutput.json
 stellarprofiles.json
 stellar_output.json
+=======
+*.json
+apptesting.py
+>>>>>>> 800633b33e4ee8fa4821755b16e6cef058567544

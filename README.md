@@ -44,14 +44,21 @@ Create an input file in the `project root`, depending on the source bot:
 
 Create a file named:
 ```text
-stellarinput.json
+stellarprofiles.json
 ```
 
 #### Converting from Valor
 
 Create a file named:
 ```text
-valorinput.json
+valorprofiles.json
+```
+
+#### Converting from Cybersole
+
+Create a file named:
+```text
+cybersoleprofiles.json
 ```
 
 Paste your exported Stellar or Valor input into this file.
@@ -67,12 +74,21 @@ You can run the ProfileTransfer using either the command line or a configuration
 example:
 
 python convert.py --from stellar --to valor
+python convert.py --from valor --to cybersole
 ```
 
 #### Option B: Without using the command line (Windows friendly)
 1. Open the config.json file
 2. Set the `from` and `to` fields to what you need
-- Current;y supporting: `Stellar -> Valor` and `Valor -> Stellar`
+- Currently supporting: 
+```
+`Stellar -> Valor`
+`Stellar -> Cybersole`,
+`Valor -> Stellar`,
+`Valor -> CyberSole`
+`CyberSole -> Stellar`
+`CyberSole -> Valor`
+```
 3. Double-click `convert.py`
 
 Example:
