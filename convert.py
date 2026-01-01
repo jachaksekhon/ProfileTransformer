@@ -8,7 +8,7 @@ from registries.bot_registry import (
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Convert bot profiles between Stellar and Valor"
+        description="Convert your bot profiles!"
     )
 
     parser.add_argument(

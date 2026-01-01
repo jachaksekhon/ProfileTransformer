@@ -30,6 +30,7 @@ class Card:
     Invariants:
     - card_type stored as all lower case (e.g "amex", "visa")
     - number stored as one contiguous string (e.g "123456789...")
+    - exp_month and exp_year are stored as 2 digits (e.g 2025 = 25)
     """
     holder: str
     card_type: str
@@ -56,4 +57,4 @@ class Profile:
 
     card: Card
 
-    one_checkout: bool
+    one_checkout: bool = False
