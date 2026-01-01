@@ -1,6 +1,11 @@
 import json
 import os
+from pathlib import Path
 from registries.bot_registry import PARSERS, EMITTERS
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+CONFIG_PATH = BASE_DIR / "config.json"
 
 
 def load_config():
@@ -8,10 +13,10 @@ def load_config():
     Load conversion configuration from config.json if it exists.
     Returns a dict or None.
     """
-    if not os.path.exists("config.json"):
+    if not CONFIG_PATH.exists():
         return None
 
-    with open("config.json", "r", encoding="utf-8") as f:
+    with CONFIG_PATH.open("r", encoding="utf-8") as f:
         return json.load(f)
 
 def resolve_source_target(cli_source: str | None, cli_target: str | None):
@@ -22,10 +27,9 @@ def resolve_source_target(cli_source: str | None, cli_target: str | None):
     if cli_source and cli_target:
         return cli_source, cli_target
 
-    if os.path.exists("config.json"):
-        with open("config.json", "r", encoding="utf-8") as f:
-            config = json.load(f)
+    config = load_config()
 
+    if config is not None:
         source = config.get("from")
         target = config.get("to")
 
@@ -66,10 +70,10 @@ def convert(from_bot: str, to_bot: str) -> int:
     # begin processing file
 
     parser_cfg = PARSERS[from_bot]
-    input_file = parser_cfg["file"]
+    input_file = BASE_DIR / parser_cfg["file"]
 
     try:
-        with open(input_file, "r", encoding="utf-8") as f:
+        with input_file.open("r", encoding="utf-8") as f:
             raw_data = json.load(f)
 
     except FileNotFoundError:
@@ -95,7 +99,9 @@ def convert(from_bot: str, to_bot: str) -> int:
     emitter_cfg = EMITTERS[to_bot]
     output_profiles = emitter_cfg["emitter"](canonical_profiles)
 
-    with open(emitter_cfg["file"], "w", encoding="utf-8") as f:
+    output_file = BASE_DIR / emitter_cfg["file"]
+
+    with output_file.open("w", encoding="utf-8") as f:
         json.dump(output_profiles, f, indent=2)
 
     return len(canonical_profiles)
