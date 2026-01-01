@@ -58,7 +58,7 @@ valorprofiles.json
 
 Create a file named:
 ```text
-cybersoleprofiles.json.json
+cybersoleprofiles.json
 ```
 
 Paste your exported Stellar or Valor input into this file.
