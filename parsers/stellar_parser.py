@@ -106,7 +106,7 @@ def stellar_profile_to_canonical(input_profile: dict) -> Profile:
 
         card                 = card,
 
-        one_checkout         = require_key(input_profile, "oneCheckoutPerProfile", "stellar profile onecheckout"),
+        one_checkout         = input_profile.get("oneCheckoutPerProfile", False),
     )
 
 def map_stellar_to_canonical(stellar_profiles: list[dict]) -> list[Profile]:
